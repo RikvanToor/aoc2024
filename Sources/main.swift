@@ -11,13 +11,25 @@ try runDay(opts.day)
 
 func executeDay<D: Day>(_ d: D, _ input: String) {
   let parsed = d.parse(input)
-  print(d.part1(parsed))
-  print(d.part2(parsed))
+  let time1 = Date()
+  let res1 = d.part1(parsed)
+  let time2 = Date()
+  let diff1 = time1.distance(to: time2)
+  print("Part 1: ", terminator: "")
+  print(res1)
+  print("Part 1 took " + String(diff1) + "s")
+  let res2 = d.part2(parsed)
+  let time3 = Date()
+  let diff2 = time2.distance(to: time3)
+  print("Part 2: ", terminator: "")
+  print(res2)
+  print("Part 2 took " + String(diff2) + "s")
 }
 
 func runDay(_ day: Int) throws {
   let inputURL = Bundle.module.url(forResource: "inputs/day" + String(format: "%02d", day), withExtension: "txt")
   let input = try String(contentsOf: inputURL!, encoding: .utf8)
+  print("======== DAY \(day) ========")
   switch day {
     case 1: executeDay(Day1(), input)
     case 2: executeDay(Day2(), input)
