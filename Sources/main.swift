@@ -28,7 +28,7 @@ func executeDay<D: Day>(_ d: D, _ input: String) {
 
 func runDay(_ day: Int) throws {
   let inputURL = Bundle.module.url(forResource: "inputs/day" + String(format: "%02d", day), withExtension: "txt")
-  let input = try String(contentsOf: inputURL!, encoding: .utf8)
+  let input = (try String(contentsOf: inputURL!, encoding: .utf8)).trimmingCharacters(in: .whitespacesAndNewlines)
   print("======== DAY \(day) ========")
   switch day {
     case 1: executeDay(Day1(), input)
