@@ -1,41 +1,74 @@
+import Parsing
+
 class Day3: Day {
 
-  typealias Input = String
+  typealias Input = [Program]
+
+  enum Program {
+    case mul(Int, Int)
+    case doP
+    case dontP
+  }
 
   func parse(_ input: String) -> Input {
-    input
+    let p = OneOf {
+      OneOf {
+        Parse {
+          "do()"
+        }.map({ Program.doP })
+
+        Parse {
+          "don't()"
+        }.map({ Program.dontP })
+
+        Parse {
+          "mul("
+          Int.parser()
+          ","
+          Int.parser()
+          ")"
+        }.map { Program.mul($0, $1) }
+
+      }.map(Optional.some)
+      First().map({ _ in nil })
+    }
+    let ps = Many {
+      p
+    }
+    do {
+      let res = try ps.parse(input).compactMap({ $0 })
+      return res
+    } catch {
+      return []
+    }
   }
 
   func part1(_ input: Input) -> Part1 {
-    do {
-      let r = try Regex("mul\\(([0-9]{1,3}),([0-9]{1,3})\\)")
-      let ms = input.matches(of: r)
-      return ms.map({ m in
-        Int(m[1].substring!)! * Int(m[2].substring!)!
-      }).reduce(0, +)
-    } catch {
-      return 0
-    }
+    input.map({
+      switch $0 {
+      case .mul(let a, let b):
+        return a * b
+      default:
+        return 0
+      }
+    }).reduce(0, +)
   }
 
   func part2(_ input: Input) -> Part2 {
-    do {
-      let r = try Regex("mul\\(([0-9]{1,3}),([0-9]{1,3})\\)|do\\(\\)|don't\\(\\)")
-      let ms = input.matches(of: r)
-      var doing = true
-      var sum = 0
-      for m in ms {
-        if m[0].substring == "do()" {
-          doing = true
-        } else if m[0].substring == "don't()" {
-          doing = false
-        } else if doing {
-          sum += Int(m[1].substring!)! * Int(m[2].substring!)!
+    input.reduce(
+      (true, 0),
+      { (acc, p) in
+        let (doing, sum) = acc
+        switch p {
+        case .doP:
+          return (true, sum)
+        case .dontP:
+          return (false, sum)
+        case .mul(let a, let b):
+          let res = doing ? sum + a * b : sum
+          return (doing, res)
         }
       }
-      return sum
-    } catch {
-      return 0
-    }
+    ).1
   }
 }
