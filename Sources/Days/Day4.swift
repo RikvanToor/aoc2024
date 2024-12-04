@@ -7,69 +7,22 @@ class Day4: Day {
   }
 
   func part1(_ input: Input) -> Part1 {
-    var sum = 0
-    for (y, l) in input.enumerated() {
-      for (x, c) in l.enumerated() {
-        if c == "X" {
-          let spaceRight = x <= l.count - 4
-          let spaceDown = y <= input.count - 4
-          if spaceRight {
-            if l[x + 1] == "M" && l[x + 2] == "A" && l[x + 3] == "S" {
-              sum += 1
-            }
+    let goal = Array("XMAS")
+    return (0...input.count-1).map({y in 
+      (0...input[y].count-1).map({x in 
+        let l = input[y]
+        let dxs = [(-1, 0), (-1, -1), (0, -1), (1, -1), (1, 0), (1, 1), (0, 1), (-1, 1)]
+        return dxs.map({ (dx, dy) in
+          if (0...3).allSatisfy({ p in
+            let (x2, y2) = (x + p * dx, y + p * dy)
+            return y2 >= 0 && y2 < l.count && x2 >= 0 && x2 < l.count && input[y2][x2] == goal[p]
+          }) {
+            return 1
           }
-          if spaceDown {
-            if input[y + 1][x] == "M" && input[y + 2][x] == "A" && input[y + 3][x] == "S" {
-              sum += 1
-            }
-
-            if spaceRight {
-              if input[y + 1][x + 1] == "M" && input[y + 2][x + 2] == "A"
-                && input[y + 3][x + 3] == "S"
-              {
-                sum += 1
-              }
-            }
-            if x >= 3 {
-              if input[y + 1][x - 1] == "M" && input[y + 2][x - 2] == "A"
-                && input[y + 3][x - 3] == "S"
-              {
-                sum += 1
-              }
-            }
-          }
-        } else if c == "S" {
-          let spaceRight = x <= l.count - 4
-          let spaceDown = y <= input.count - 4
-          if spaceRight {
-            if l[x + 1] == "A" && l[x + 2] == "M" && l[x + 3] == "X" {
-              sum += 1
-            }
-          }
-          if spaceDown {
-            if input[y + 1][x] == "A" && input[y + 2][x] == "M" && input[y + 3][x] == "X" {
-              sum += 1
-            }
-
-            if spaceRight {
-              if input[y + 1][x + 1] == "A" && input[y + 2][x + 2] == "M"
-                && input[y + 3][x + 3] == "X"
-              {
-                sum += 1
-              }
-            }
-            if x >= 3 {
-              if input[y + 1][x - 1] == "A" && input[y + 2][x - 2] == "M"
-                && input[y + 3][x - 3] == "X"
-              {
-                sum += 1
-              }
-            }
-          }
-        }
-      }
-    }
-    return sum
+          return 0
+        }).reduce(0, +)
+      }).reduce(0, +)
+    }).reduce(0, +)
   }
 
   func part2(_ input: Input) -> Part2 {
