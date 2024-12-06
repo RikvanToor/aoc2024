@@ -56,7 +56,33 @@ class Day6: Day {
     }
   }
 
-  func solve2(blocks: Set<Pos>, initialPos: Pos, maxX: Int, maxY: Int) -> Bool {
+  func part2(_ input: Input) async -> Part2 {
+    let (arr, posInitial) = input
+    let maxY = arr.count - 1
+    let maxX = arr[0].count - 1
+
+    let maxSteps = self.part1Steps
+    let bs = self.blocks
+    let tasks = self.visitedSet1.map {b in 
+      Task {
+        var blocks2 = Set(bs)
+        blocks2.insert(b)
+        return solve2(blocks: blocks2, initialPos: posInitial, maxX: maxX, maxY: maxY, maxSteps: maxSteps)
+      }
+    }
+
+    var sum = 0
+    for t in tasks {
+      if await t.result.get() {
+        sum += 1
+      }
+    }
+
+    return sum
+  }
+}
+
+func solve2(blocks: Set<Pos>, initialPos: Pos, maxX: Int, maxY: Int, maxSteps: Int) -> Bool {
     var d = Pos(x: 0, y: -1)
     var pos = initialPos
     var steps = 0
@@ -70,33 +96,13 @@ class Day6: Day {
         steps += 1
       }
 
-      if steps > 2 * self.part1Steps {
+      if steps > 2 * maxSteps {
         return true
       } else if pos.x < 0 || pos.x > maxX || pos.y < 0 || pos.y > maxY {
         return false
       }
     }
   }
-
-  func part2(_ input: Input) -> Part2 {
-    let (arr, posInitial) = input
-    let maxY = arr.count - 1
-    let maxX = arr[0].count - 1
-
-    var sum = 0
-
-    for b in self.visitedSet1 {
-      var blocks2: Set<Pos> = Set(self.blocks)
-      blocks2.insert(b)
-      let loop = solve2(blocks: blocks2, initialPos: posInitial, maxX: maxX, maxY: maxY)
-      if loop {
-        sum += 1
-      }
-    }
-
-    return sum
-  }
-}
 
 struct Pos {
   let x: Int
