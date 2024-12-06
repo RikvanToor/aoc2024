@@ -20,6 +20,7 @@ class Day6: Day {
 
   var visitedSet1: Set<Pos> = []
   var blocks: Set<Pos> = []
+  var part1Steps = 0
 
   func part1(_ input: Input) -> Part1 {
     let (arr, posInitial) = input
@@ -43,6 +44,7 @@ class Day6: Day {
         continue
       } else {
         pos = pos2
+        self.part1Steps += 1
       }
 
       if pos.x < 0 || pos.x > maxX || pos.y < 0 || pos.y > maxY {
@@ -54,10 +56,10 @@ class Day6: Day {
     }
   }
 
-  func solve2(blocks: Set<Pos>, initialPos: Pos, maxX: Int, maxY: Int) -> (Bool, Set<PosDir>) {
+  func solve2(blocks: Set<Pos>, initialPos: Pos, maxX: Int, maxY: Int) -> Bool {
     var d = Pos(x: 0, y: -1)
     var pos = initialPos
-    var res: Set<PosDir> = [PosDir(pos: pos, dir: d)]
+    var steps = 0
     while true {
       let pos2 = pos.add(d)
       if blocks.contains(pos2) {
@@ -65,16 +67,13 @@ class Day6: Day {
         continue
       } else {
         pos = pos2
+        steps += 1
       }
 
-      if pos.x < 0 || pos.x > maxX || pos.y < 0 || pos.y > maxY {
-        return (false, res)
-      } else {
-        // Loop until we get to a position + direction we've been to before
-        let (inserted, _) = res.insert(PosDir(pos: pos, dir: d))
-        if !inserted {
-          return (true, res)
-        }
+      if steps > 2 * self.part1Steps {
+        return true
+      } else if pos.x < 0 || pos.x > maxX || pos.y < 0 || pos.y > maxY {
+        return false
       }
     }
   }
@@ -89,7 +88,7 @@ class Day6: Day {
     for b in self.visitedSet1 {
       var blocks2: Set<Pos> = Set(self.blocks)
       blocks2.insert(b)
-      let (loop, _) = solve2(blocks: blocks2, initialPos: posInitial, maxX: maxX, maxY: maxY)
+      let loop = solve2(blocks: blocks2, initialPos: posInitial, maxX: maxX, maxY: maxY)
       if loop {
         sum += 1
       }
