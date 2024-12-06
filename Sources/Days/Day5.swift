@@ -78,7 +78,7 @@ class Day5: Day {
   }
 
   func part2(_ input: Input) -> Part2 {
-    let (orderings, updates) = input
+    let (orderings, _) = input
 
     return get_relevant_updates(input: input, which: Which.Incorrect)
       .map({ u in
