@@ -71,6 +71,9 @@ func getOps(_ o: Ops) -> [(Int,Int) -> Int] {
 }
 
 func solve(goal: Int, current: Int, steps: ArraySlice<Int>, ops: Ops) -> Bool {
+    if current > goal {
+      return false
+    }
     if steps.count == 0 {
       return current == goal
     }
