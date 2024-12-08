@@ -112,6 +112,14 @@ struct Pos {
     Pos(x: self.x + p2.x, y: self.y + p2.y)
   }
 
+  func subtract(_ p2: Pos) -> Pos {
+    Pos(x: self.x - p2.x, y: self.y - p2.y)
+  }
+
+  func factor(_ i: Int) -> Pos {
+    Pos(x: self.x * i, y: self.y * i)
+  }
+
   func turnRight() -> Pos {
     Pos(x: -self.y, y: self.x)
   }
