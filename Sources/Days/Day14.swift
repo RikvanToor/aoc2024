@@ -86,7 +86,7 @@ class Day14: Day {
 
   func part2(_ input: Input) -> Part2 {
     var maxX = 0, maxY = 0
-    for (p, v) in input {
+    for (p, _) in input {
       if p.x > maxX {
         maxX = p.x
       }
