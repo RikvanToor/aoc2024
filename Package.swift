@@ -7,7 +7,8 @@ let package = Package(
     name: "aoc2024",
     dependencies: [
       .package(url: "https://github.com/apple/swift-argument-parser.git", from: "1.5.0"),
-      .package(url: "https://github.com/pointfreeco/swift-parsing.git", from: "0.13.0")
+      .package(url: "https://github.com/pointfreeco/swift-parsing.git", from: "0.13.0"),
+      .package(url: "https://github.com/davecom/SwiftPriorityQueue", from: "1.4.0")
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -16,7 +17,8 @@ let package = Package(
             name: "aoc2024",
             dependencies: [ 
               .product(name: "ArgumentParser", package: "swift-argument-parser"),
-              .product(name: "Parsing", package: "swift-parsing")
+              .product(name: "Parsing", package: "swift-parsing"),
+              .product(name: "SwiftPriorityQueue", package: "SwiftPriorityQueue")
             ],
             resources: [ .copy("inputs") ]),
     ]
