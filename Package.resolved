@@ -1,5 +1,5 @@
 {
-  "originHash" : "ea76a75aa2d0e82d646a7689731c67bd7538438d9dc658539e56feedbff6c31f",
+  "originHash" : "1b8400205e1de849da14626d617b83291e3cfa6e4075aba6e78951161331b78e",
   "pins" : [
     {
       "identity" : "swift-argument-parser",
@@ -35,6 +35,15 @@
       "state" : {
         "revision" : "0687f71944021d616d34d922343dcef086855920",
         "version" : "600.0.1"
+      }
+    },
+    {
+      "identity" : "swiftpriorityqueue",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/davecom/SwiftPriorityQueue",
+      "state" : {
+        "revision" : "42e8789c6d2464254c2e0322bd824ec509de678b",
+        "version" : "1.4.0"
       }
     },
     {

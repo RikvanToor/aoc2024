@@ -88,7 +88,9 @@ func solve(goal: Int, current: Int, steps: ArraySlice<Int>, ops: Ops) -> Bool {
 
 
 func pow(_ x: Int, _ y: Int) -> Int {
-    if y == 1 {
+    if y == 0 {
+      return 1
+    } else if y == 1 {
       return x
     } else {
       return x * pow(x, y-1)
