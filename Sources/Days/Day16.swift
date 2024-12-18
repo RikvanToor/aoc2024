@@ -84,7 +84,7 @@ class Day16: Day {
   }
 }
 
-class Node: Comparable, Hashable {
+private class Node: Comparable, Hashable {
   let posdir: PosDir
   let cost: Int
 
@@ -97,16 +97,17 @@ class Node: Comparable, Hashable {
     hasher.combine(posdir)
     hasher.combine(cost)
   }
+
+  static func < (lhs: Node, rhs: Node) -> Bool {
+    return lhs.cost < rhs.cost
+  }
+
+  static func <= (lhs: Node, rhs: Node) -> Bool {
+    return lhs.cost <= rhs.cost
+  }
+
+  static func == (lhs: Node, rhs: Node) -> Bool {
+    return lhs === rhs
+  }
 }
 
-func < (lhs: Node, rhs: Node) -> Bool {
-  return lhs.cost < rhs.cost
-}
-
-func <= (lhs: Node, rhs: Node) -> Bool {
-  return lhs.cost <= rhs.cost
-}
-
-func == (lhs: Node, rhs: Node) -> Bool {
-  return lhs === rhs
-}
