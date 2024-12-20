@@ -112,7 +112,7 @@ class Day18: Day {
   }
 }
 
-private func dijkstra<T>(start: Node<T>, neighbours: (Node<T>) -> Set<Node<T>>, isGoal: (T) -> Bool)
+func dijkstra<T>(start: Node<T>, neighbours: (Node<T>) -> Set<Node<T>>, isGoal: (T) -> Bool)
   -> [T]?
 {
   var queue: PriorityQueue<Node<T>> = PriorityQueue(ascending: true)
@@ -147,7 +147,7 @@ private func dijkstra<T>(start: Node<T>, neighbours: (Node<T>) -> Set<Node<T>>, 
   }
 }
 
-private class Node<T: Hashable>: Comparable, Hashable {
+class Node<T: Hashable>: Comparable, Hashable {
   let val: T
   let cost: Int
 

@@ -23,22 +23,22 @@ class Day16: Day {
         }
       }
     }
-    var queue: PriorityQueue<Node> = PriorityQueue(ascending: true)
-    queue.push(Node(start, 0))
+    var queue: PriorityQueue<PQNode> = PriorityQueue(ascending: true)
+    queue.push(PQNode(start, 0))
 
     while let cur = queue.pop() {
-      var neighs: Set<Node> = [
-        Node(
+      var neighs: Set<PQNode> = [
+        PQNode(
           PosDir(pos: cur.posdir.pos, dir: Pos(x: -cur.posdir.dir.y, y: cur.posdir.dir.x)),
           cur.cost + 1000),
-        Node(
+        PQNode(
           PosDir(pos: cur.posdir.pos, dir: Pos(x: cur.posdir.dir.y, y: -cur.posdir.dir.x)),
           cur.cost + 1000),
       ]
       let newPos = cur.posdir.pos.add(cur.posdir.dir)
       let c = input[newPos.y][newPos.x]
       if c == "." || c == "E" || c == "S" {
-        neighs.insert(Node(PosDir(pos: newPos, dir: cur.posdir.dir), cur.cost + 1))
+        neighs.insert(PQNode(PosDir(pos: newPos, dir: cur.posdir.dir), cur.cost + 1))
       }
 
       for n in neighs {
@@ -84,7 +84,7 @@ class Day16: Day {
   }
 }
 
-private class Node: Comparable, Hashable {
+private class PQNode: Comparable, Hashable {
   let posdir: PosDir
   let cost: Int
 
@@ -98,15 +98,15 @@ private class Node: Comparable, Hashable {
     hasher.combine(cost)
   }
 
-  static func < (lhs: Node, rhs: Node) -> Bool {
+  static func < (lhs: PQNode, rhs: PQNode) -> Bool {
     return lhs.cost < rhs.cost
   }
 
-  static func <= (lhs: Node, rhs: Node) -> Bool {
+  static func <= (lhs: PQNode, rhs: PQNode) -> Bool {
     return lhs.cost <= rhs.cost
   }
 
-  static func == (lhs: Node, rhs: Node) -> Bool {
+  static func == (lhs: PQNode, rhs: PQNode) -> Bool {
     return lhs === rhs
   }
 }
