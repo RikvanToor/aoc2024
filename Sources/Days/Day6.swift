@@ -123,6 +123,18 @@ struct Pos {
   func turnRight() -> Pos {
     Pos(x: -self.y, y: self.x)
   }
+
+  func neighbours4() -> [Pos] {
+    [(-1, 0), (1, 0), (0, -1), (0, 1)].map { d in
+      self.add(Pos(x:d.0, y:d.1))
+    }
+  }
+
+  func neighbours8 () -> [Pos] {
+    [(-1, -1), (0, -1), (1, -1), (-1, 0), (1, 0), (-1, 1), (0, 1), (1, 1)].map { d in
+      self.add(Pos(x:d.0, y:d.1))
+    }
+  }
 }
 
 struct PosDir {
